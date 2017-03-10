@@ -79,7 +79,7 @@ public:
 	const DIRECTION GetDir() const;
 	const UNIT_TYPE GetUnitType() const;
 	const ACTION_TYPE GetActionType() const;
-	void GetPath(iPoint dest);
+	int GetPath(iPoint dest);
 };
 
 #endif

@@ -67,9 +67,16 @@ void Unit::Move()
 		destination.y -= App->render->camera.y;
 		if (this->GetEntityStatus() == E_SELECTED)
 		{
-			this->GetPath({ destination.x, destination.y});
-			this->action_type = WALK;
-			this->moving = true;
+			if (this->GetPath({ destination.x, destination.y }) != -1)
+			{
+				this->action_type = WALK;
+				this->moving = true;
+			}
+			else
+			{
+				this->moving = false;
+				this->action_type = IDLE;
+			}
 		}
 	}
 
@@ -279,9 +286,9 @@ const ACTION_TYPE Unit::GetActionType() const
 	return action_type;
 }
 
-void Unit::GetPath(iPoint dest)
+int Unit::GetPath(iPoint dest)
 {
 	iPoint ori = App->map->WorldToMap(GetX(), GetY());
 	iPoint destinat = App->map->WorldToMap(dest.x, dest.y);
-	App->pathfinding->CreatePath(ori, destinat, path_list);
+	return App->pathfinding->CreatePath(ori, destinat, path_list);
 }
