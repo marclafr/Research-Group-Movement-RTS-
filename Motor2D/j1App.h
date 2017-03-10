@@ -98,7 +98,7 @@ public:
 	j1Fonts*			font = NULL;
 	j1Animation*		anim = NULL;
 	j1UIManager*		uimanager = NULL;
-	j1EntityManager*            units = NULL;
+	j1EntityManager*    entity_manager = NULL;
 
 private:
 

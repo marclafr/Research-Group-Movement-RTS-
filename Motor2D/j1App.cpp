@@ -29,7 +29,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	fs = new j1FileSystem();
 	pathfinding = new j1PathFinding();
-	units = new j1EntityManager();
+	entity_manager = new j1EntityManager();
 	anim = new j1Animation();
 	map = new j1Map();
 	scene = new j1Scene();
@@ -48,7 +48,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// scene last
 	AddModule(scene);
-	AddModule(units);
+	AddModule(entity_manager);
 	// render last to swap buffer
 	AddModule(render);
 

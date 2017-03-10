@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "Entity.h"
 #include "Units.h"
+#include "SDL/include/SDL_rect.h"
 
 class j1EntityManager : public j1Module
 {
@@ -21,9 +22,13 @@ public:
 
 	Entity* CreateUnit(UNIT_TYPE u_type, fPoint pos);
 
+	void SelectInQuad(const SDL_Rect& select_rect);
+	void UnselectEverything();
+
 	void DeleteEntity(Entity* ptr); // will call other delete methods
 	void DeleteUnit(Entity* ptr);
 
+private:
 	std::list<Entity*> entity_list;
 };
 #endif //_j1EntityManager_

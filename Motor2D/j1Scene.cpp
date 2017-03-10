@@ -46,8 +46,8 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	App->units->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
-	App->units->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
 
 	return true;
 }
@@ -111,10 +111,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
 	{
-		for (std::list<Entity*>::iterator it = App->units->entity_list.begin(); it != App->units->entity_list.end(); it++)
-		{
-			it._Ptr->_Myval->SetEntityStatus(E_NON_SELECTED);
-		}
+		App->entity_manager->UnselectEverything();
 
 		select_rect.x = x - App->render->camera.x;
 		select_rect.y = y - App->render->camera.y;
@@ -131,27 +128,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetMouseButtonDown(1) == KEY_UP)
 	{
-		for (std::list<Entity*>::iterator it = App->units->entity_list.begin(); it != App->units->entity_list.end(); it++)
-		{
-			int unit_x = it._Ptr->_Myval->GetX();
-			int unit_y = it._Ptr->_Myval->GetY();
-			if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
-			{
-				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
-			}
-			else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
-			{
-				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
-			}
-			else if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
-			{
-				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
-			}
-			else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
-			{
-				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
-			}
-		}
+		App->entity_manager->SelectInQuad(select_rect);
 	}
 	//--
 

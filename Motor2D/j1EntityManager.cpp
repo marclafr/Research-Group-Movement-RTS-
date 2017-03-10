@@ -31,6 +31,39 @@ Entity * j1EntityManager::CreateUnit(UNIT_TYPE u_type, fPoint pos)
 	return new_entity;
 }
 
+void j1EntityManager::SelectInQuad(const SDL_Rect& select_rect)
+{
+	for (std::list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
+	{
+		int unit_x = it._Ptr->_Myval->GetX();
+		int unit_y = it._Ptr->_Myval->GetY();
+		if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
+		{
+			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+		}
+		else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
+		{
+			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+		}
+		else if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
+		{
+			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+		}
+		else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
+		{
+			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+		}
+	}
+}
+
+void j1EntityManager::UnselectEverything()
+{
+	for (std::list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
+	{
+		it._Ptr->_Myval->SetEntityStatus(E_NON_SELECTED);
+	}
+}
+
 void j1EntityManager::DeleteEntity(Entity * ptr)
 {
 	switch (ptr->GetEntityType())
