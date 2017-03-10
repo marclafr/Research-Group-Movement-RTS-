@@ -97,6 +97,7 @@ struct PathList
 {
 	// Looks for a node in this list and returns it's list node or NULL
 	std::list<PathNode>::iterator Find(const iPoint& point);
+	iPoint Findp(const iPoint& point);
 
 	// Returns the Pathnode with lowest score in this list or NULL if empty
 	PathNode* GetNodeLowestScore() const;
