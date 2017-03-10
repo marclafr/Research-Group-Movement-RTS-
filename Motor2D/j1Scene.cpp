@@ -156,6 +156,7 @@ bool j1Scene::Update(float dt)
 	p = App->map->WorldToMap(p.x, p.y);
 	p = App->map->MapToWorld(p.x, p.y);
 
+	//TODO: remove? App->render->Blit(debug_tex, p.x - App->map->data.tile_width / 2, p.y - App->map->data.tile_height / 2);
 	App->render->Blit(debug_tex, p.x, p.y);
 
 	const std::vector<iPoint>* path = App->pathfinding->GetLastPath();
@@ -164,11 +165,11 @@ bool j1Scene::Update(float dt)
 	{
 		std::vector<iPoint>::const_iterator item = path->begin();
 
-		//for (uint i = 0; i < path->size() - 1; ++i)
 		while(item != path->end())
 		{
 			iPoint pos = App->map->MapToWorld(item->x, item->y);
 			App->render->Blit(debug_tex, pos.x, pos.y);
+			//TODO: remove? App->render->Blit(debug_tex, pos.x - App->map->data.tile_width / 2, pos.y - App->map->data.tile_height / 2);
 			item++;
 		}
 	}
@@ -193,9 +194,8 @@ bool j1Scene::Update(float dt)
 	{
 		w = x - App->render->camera.x;
 		h = y - App->render->camera.y;
+		App->render->DrawQuad({ x_select, y_select, w - x_select, h - y_select }, 255, 255, 255, 255, false);
 	}
-
-	App->render->DrawQuad({ x_select, y_select, w - x_select, h - y_select }, 255, 255, 255, 255, false);
 
 	if (App->input->GetMouseButtonDown(1) == KEY_UP)
 	{
@@ -220,11 +220,6 @@ bool j1Scene::Update(float dt)
 				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
 			}
 		}
-
-		x_select = 0;
-		w = 0;
-		y_select = 0;
-		h = 0;
 	}
 
 	//--
