@@ -63,9 +63,11 @@ void Unit::Move()
 	if (App->input->GetMouseButtonDown(3) == KEY_DOWN)
 	{
 		App->input->GetMousePosition(destination.x, destination.y);
+		destination.x -= App->render->camera.x;
+		destination.y -= App->render->camera.y;
 		if (this->GetEntityStatus() == E_SELECTED)
 		{
-			this->GetPath({ destination.x, destination.y });
+			this->GetPath({ destination.x, destination.y});
 			this->action_type = WALK;
 			this->moving = true;
 		}
@@ -74,7 +76,7 @@ void Unit::Move()
 	if (this->moving == true)
 	{
 		iPoint dest_map = App->map->WorldToMap(destination.x, destination.y);
-		iPoint unit_map = App->map->WorldToMap(this->GetX(), this->GetY());
+		iPoint unit_map = App->map->WorldToMap(this->GetX() , this->GetY() );
 
 		if (path_list.size() > 0 && unit_map == path_list.front())
 		{
@@ -102,6 +104,15 @@ void Unit::Move()
 			{
 				this->direction = WEST;
 			}
+			else if (nxt.x < prv.x && nxt.y < prv.y)
+				this->direction = NORTH;
+
+			else if (nxt.x == prv.x && nxt.y < prv.y)
+				this->direction = NORTH_EAST;
+
+			else if (nxt.x < prv.x && nxt.y == prv.y)
+				this->direction = NORTH_WEST;
+			
 
 		}
 		switch (this->direction)
@@ -120,6 +131,15 @@ void Unit::Move()
 			break;
 		case WEST:
 			this->SetPosition(this->GetX() - this->speed, this->GetY());
+			break;
+		case NORTH:
+			this->SetPosition(this->GetX(), this->GetY() - this->speed / 2);
+			break;
+		case NORTH_EAST:
+			this->SetPosition(this->GetX() + this->speed, this->GetY() - this->speed / 2);
+			break;
+		case NORTH_WEST:
+			this->SetPosition(this->GetX() - this->speed, this->GetY() - this->speed / 2);
 			break;
 		default:
 			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed/2);
@@ -259,9 +279,9 @@ const ACTION_TYPE Unit::GetActionType() const
 	return action_type;
 }
 
-void Unit::GetPath(iPoint destination)
+void Unit::GetPath(iPoint dest)
 {
 	iPoint ori = App->map->WorldToMap(GetX(), GetY());
-	iPoint dest = App->map->WorldToMap(destination.x, destination.y);
-	App->pathfinding->CreatePath(ori, dest, path_list);
+	iPoint destinat = App->map->WorldToMap(dest.x, dest.y);
+	App->pathfinding->CreatePath(ori, destinat, path_list);
 }
