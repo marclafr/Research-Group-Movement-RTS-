@@ -48,10 +48,7 @@ private:
 	bool right_click = false;
 	bool left_click = false;
 	/**/
-	int x_select = 0;
-	int y_select = 0;
-	int w = 0;
-	int h = 0;
+	SDL_Rect select_rect;
 };
 
 #endif // __j1SCENE_H__

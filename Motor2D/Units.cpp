@@ -56,6 +56,12 @@ void Unit::Update()
 	AI();
 	Move();
 	Draw();
+	iPoint pos = App->map->WorldToMap(this->GetX(), this->GetY());
+
+	if (App->pathfinding->IsWalkable({ pos.x, pos.y }) == false && (direction == NORTH || direction == SOUTH || direction == EAST || direction == WEST))
+	{
+		this->SetPosition(500, 500);
+	}
 }
 
 void Unit::Move()
@@ -85,7 +91,11 @@ void Unit::Move()
 		iPoint dest_map = App->map->WorldToMap(destination.x, destination.y);
 		iPoint unit_map = App->map->WorldToMap(this->GetX() , this->GetY());
 
+		//iPoint next_step_world = App->map->MapToWorld(path_list.front().x, path_list.front().y);
 
+		//next_step_world.x == x && next_step_world.y == y
+		//int x = this->GetX();
+		//int y = this->GetY();
 		if (path_list.size() > 0 && unit_map == path_list.front())
 		{
 			path_list.pop_front();
@@ -161,6 +171,10 @@ void Unit::Move()
 		}
 	}
 
+	//TODO: Delete this
+	iPoint actual_pos_test;
+	actual_pos_test = App->map->WorldToMap(this->GetX(), this->GetY());
+	int i = 0;
 }
 
 void Unit::AI()

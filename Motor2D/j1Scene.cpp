@@ -46,32 +46,6 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	/*TEST UI 
-	//Definition UIElements
-	uint width = 0;
-	uint height = 0;
-	App->win->GetWindowSize(width, height);
-
-
-	banner = (UIImage*)App->uimanager->addUIComponent(UIComponent_TYPE::UIIMAGE);
-	banner->Set({ (int)width / 2, (int)height / 4, 328, 103 }, { 485, 829, 328, 103 });
-
-	text = (UILabel*)App->uimanager->addUIComponent(UIComponent_TYPE::UILABEL);
-	text->Set(width / 2, height / 4 - 120, "Hello World");
-
-	check_test = (UICheckbutton*)App->uimanager->addUIComponent(UIComponent_TYPE::UICHECKBUTTON);
-	check_test->Set({ 100, 100, 328, 103 }, { 485, 829, 328, 103 }, { 100, 100, 328, 103 });
-	check_test->title->Set(150, 75, "Test Chech Button");
-
-	select_test = (UISelectOption*)App->uimanager->addUIComponent(UIComponent_TYPE::UISELECTOPTION);
-	select_test->Set({ 100,500,100,50 }, { 485, 829, 100, 50 });
-	select_test->title->Set(100, 475, "Select Your Destiny");
-	select_test->AddOption("OMG");
-	select_test->AddOption("YOU'RE FAGGOT");
-	select_test->AddOption("LET ME SUICIDE");
-	select_test->AddOption("FUCK OFF");
-	*/
-
 	App->units->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
 	App->units->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
 
@@ -87,36 +61,6 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
-	// UIManager ---
-	/* TEST
-	if (text->stat == UIComponent_Stat::SELECTED)
-	{
-		if (right_click == true)
-			text->ChangeText("Hello World - right click");
-		else if (left_click == true)
-			text->ChangeText("Hello World - left click");
-		else
-			text->ChangeText("It's hover");
-	}
-	else if (text->stat == UIComponent_Stat::UNSELECTED)
-	{
-		text->ChangeText("Hello World");
-		right_click = false;
-		left_click = false;
-	}
-	else if (text->stat == UIComponent_Stat::CLICKR_DOWN)
-	{
-		right_click = true;
-		left_click = false;
-	}
-	else if (text->stat == UIComponent_Stat::CLICKL_DOWN)
-	{
-		left_click = true;
-		right_click = false;
-	}
-	/**/
-	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
@@ -136,21 +80,9 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x -= floor(200.0f * dt);
 
 	App->map->Draw();
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 	
-	std::string title;
-	title = ("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d",
-		App->map->data.width, App->map->data.height,
-		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.size(),
-		map_coordinates.x, map_coordinates.y);
-
-	//App->win->SetTitle(title.c_str());
-
 	// Debug pathfinding ------------------------------
-	//int x, y;
+	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
@@ -184,17 +116,17 @@ bool j1Scene::Update(float dt)
 			it._Ptr->_Myval->SetEntityStatus(E_NON_SELECTED);
 		}
 
-		x_select = x - App->render->camera.x;
-		y_select = y - App->render->camera.y;
-		w = x_select;
-		h = y_select;
+		select_rect.x = x - App->render->camera.x;
+		select_rect.y = y - App->render->camera.y;
+		select_rect.w = select_rect.x;
+		select_rect.h = select_rect.y;
 	}
 
 	else if (App->input->GetMouseButtonDown(1) == KEY_REPEAT)
 	{
-		w = x - App->render->camera.x;
-		h = y - App->render->camera.y;
-		App->render->DrawQuad({ x_select, y_select, w - x_select, h - y_select }, 255, 255, 255, 255, false);
+		select_rect.w = x - App->render->camera.x;
+		select_rect.h = y - App->render->camera.y;
+		App->render->DrawQuad({ select_rect.x, select_rect.y, select_rect.w - select_rect.x, select_rect.h - select_rect.y }, 255, 255, 255, 255, false);
 	}
 
 	if (App->input->GetMouseButtonDown(1) == KEY_UP)
@@ -203,25 +135,24 @@ bool j1Scene::Update(float dt)
 		{
 			int unit_x = it._Ptr->_Myval->GetX();
 			int unit_y = it._Ptr->_Myval->GetY();
-			if (unit_x > x_select && unit_x < w && unit_y > y_select && unit_y < h)
+			if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
 			{
 				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
 			}
-			else if (unit_x < x_select && unit_x > w && unit_y < y_select && unit_y > h)
+			else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
 			{
 				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
 			}
-			else if (unit_x > x_select && unit_x < w && unit_y < y_select && unit_y > h)
+			else if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
 			{
 				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
 			}
-			else if (unit_x < x_select && unit_x > w && unit_y > y_select && unit_y < h)
+			else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
 			{
 				it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
 			}
 		}
 	}
-
 	//--
 
 	return true;
