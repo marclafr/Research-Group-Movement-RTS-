@@ -2,6 +2,9 @@
 #define _UNITS
 
 #include "Entity.h"
+
+#define XY_TILES_RELATION 2
+
 struct PathList;
 struct PathNode;
 
@@ -21,7 +24,6 @@ enum UNIT_CLASS
 	ARCHER,
 	CAVALRY,
 	SIEGE,
-	SUICIDAL
 };
 
 enum ACTION_TYPE

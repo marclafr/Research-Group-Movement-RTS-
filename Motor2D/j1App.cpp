@@ -13,9 +13,7 @@
 #include "j1FileSystem.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
-#include "j1Fonts.h"
 #include "j1Animation.h"
-#include "j1UIManager.h"
 #include "j1App.h"
 #include "j1EntityManager.h"
 
@@ -32,11 +30,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fs = new j1FileSystem();
 	pathfinding = new j1PathFinding();
 	units = new j1EntityManager();
-	font = new j1Fonts();
 	anim = new j1Animation();
 	map = new j1Map();
 	scene = new j1Scene();
-	uimanager = new j1UIManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -46,10 +42,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(pathfinding);
-	AddModule(font);
 	AddModule(map);
 	AddModule(anim);
-	AddModule(uimanager);
 
 
 	// scene last

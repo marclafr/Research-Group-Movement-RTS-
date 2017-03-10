@@ -46,12 +46,6 @@
     <ClCompile Include="j1PerfTimer.cpp">
       <Filter>Awsome_Game\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="j1Fonts.cpp">
-      <Filter>Awsome_Game\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1UIManager.cpp">
-      <Filter>Awsome_Game\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Animation.cpp">
       <Filter>Awsome_Game\Modules</Filter>
     </ClCompile>
@@ -59,9 +53,6 @@
       <Filter>Awsome_Game\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Units.cpp">
-      <Filter>Awsome_Game\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Buildings.cpp">
       <Filter>Awsome_Game\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
@@ -132,12 +123,6 @@
     <ClInclude Include="j1PerfTimer.h">
       <Filter>Awsome_Game\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="j1Fonts.h">
-      <Filter>Awsome_Game\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1UIManager.h">
-      <Filter>Awsome_Game\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="j1Animation.h">
       <Filter>Awsome_Game\Modules</Filter>
     </ClInclude>
@@ -145,9 +130,6 @@
       <Filter>Awsome_Game\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Units.h">
-      <Filter>Awsome_Game\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Buildings.h">
       <Filter>Awsome_Game\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">

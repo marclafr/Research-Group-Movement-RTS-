@@ -124,25 +124,25 @@ void Unit::Move()
 			this->SetPosition(this->GetX(), this->GetY() + this->speed);
 			break;
 		case SOUTH_EAST:
-			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed / 2);
+			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed / XY_TILES_RELATION);
 			break;
 		case SOUTH_WEST:
-			this->SetPosition(this->GetX() - this->speed, this->GetY() + this->speed / 2);
+			this->SetPosition(this->GetX() - this->speed, this->GetY() + this->speed / XY_TILES_RELATION);
 			break;
 		case WEST:
 			this->SetPosition(this->GetX() - this->speed, this->GetY());
 			break;
 		case NORTH:
-			this->SetPosition(this->GetX(), this->GetY() - this->speed / 2);
+			this->SetPosition(this->GetX(), this->GetY() - this->speed / XY_TILES_RELATION);
 			break;
 		case NORTH_EAST:
-			this->SetPosition(this->GetX() + this->speed, this->GetY() - this->speed / 2);
+			this->SetPosition(this->GetX() + this->speed, this->GetY() - this->speed / XY_TILES_RELATION);
 			break;
 		case NORTH_WEST:
-			this->SetPosition(this->GetX() - this->speed, this->GetY() - this->speed / 2);
+			this->SetPosition(this->GetX() - this->speed, this->GetY() - this->speed / XY_TILES_RELATION);
 			break;
 		default:
-			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed/2);
+			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed/ XY_TILES_RELATION);
 			break;
 		}
 

@@ -8,7 +8,6 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
-#include "j1UIManager.h"
 #include "j1Scene.h"
 #include "j1Animation.h"
 #include "j1EntityManager.h"
@@ -74,7 +73,7 @@ bool j1Scene::Start()
 	*/
 
 	App->units->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
-	App->units->CreateUnit(CAVALRYARCHER, fPoint(100, 400));
+	App->units->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
 
 	return true;
 }
@@ -82,31 +81,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
-	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
-
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-
-	if(App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if(origin_selected == true)
-		{
-			//App->pathfinding->CreatePath(origin, p);
-			origin_selected = false;
-		}
-		else
-		{
-			App->units->GetUnitsPath(p);
-			origin = p;
-			origin_selected = true;
-		}
-	}
-
 	return true;
 }
 
