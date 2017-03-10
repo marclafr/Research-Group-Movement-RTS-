@@ -83,7 +83,8 @@ void Unit::Move()
 	if (this->moving == true)
 	{
 		iPoint dest_map = App->map->WorldToMap(destination.x, destination.y);
-		iPoint unit_map = App->map->WorldToMap(this->GetX() , this->GetY() );
+		iPoint unit_map = App->map->WorldToMap(this->GetX() , this->GetY());
+
 
 		if (path_list.size() > 0 && unit_map == path_list.front())
 		{
@@ -128,7 +129,7 @@ void Unit::Move()
 			this->SetPosition(this->GetX() + this->speed, this->GetY());
 			break;
 		case SOUTH:
-			this->SetPosition(this->GetX(), this->GetY() + this->speed);
+			this->SetPosition(this->GetX(), this->GetY() + this->speed / XY_TILES_RELATION);
 			break;
 		case SOUTH_EAST:
 			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed / XY_TILES_RELATION);
@@ -159,6 +160,7 @@ void Unit::Move()
 			this->action_type = IDLE;
 		}
 	}
+
 }
 
 void Unit::AI()

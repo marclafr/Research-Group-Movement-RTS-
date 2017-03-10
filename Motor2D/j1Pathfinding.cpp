@@ -242,9 +242,9 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, s
 			}
 			else
 			{
-				PathList neightbords;
-				close.list.back().FindWalkableAdjacents(neightbords);
-				for (std::list<PathNode>::iterator item = neightbords.list.begin(); item != neightbords.list.end(); item++) {
+				PathList neightbours;
+				close.list.back().FindWalkableAdjacents(neightbours);
+				for (std::list<PathNode>::iterator item = neightbours.list.begin(); item != neightbours.list.end(); item++) {
 					if (close.Findp(item->pos) == item->pos)
 					{
 						continue;
@@ -266,7 +266,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, s
 						open.list.push_back(item._Mynode()->_Myval);
 					}
 				}
-				neightbords.list.clear();
+				neightbours.list.clear();
 			}
 		}
 	}
