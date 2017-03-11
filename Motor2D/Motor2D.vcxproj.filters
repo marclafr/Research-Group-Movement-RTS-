@@ -58,6 +58,9 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Awsome_Game\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="j1Collision.cpp">
+      <Filter>Awsome_Game\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Awsome_Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Collision.h">
+      <Filter>Awsome_Game\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

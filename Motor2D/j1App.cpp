@@ -16,6 +16,7 @@
 #include "j1Animation.h"
 #include "j1App.h"
 #include "j1EntityManager.h"
+#include "j1Collision.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -33,6 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	anim = new j1Animation();
 	map = new j1Map();
 	scene = new j1Scene();
+	collision = new j1Collision();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -44,7 +46,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(map);
 	AddModule(anim);
-
+	AddModule(collision);
 
 	// scene last
 	AddModule(scene);

@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 
+
 #define XY_TILES_RELATION 2
 
 struct PathList;
@@ -64,6 +65,7 @@ private:
 	bool moving = false;
 	UNIT_CLASS unit_class;
 	std::list<iPoint> path_list;
+	int unit_center;
 
 public:
 
@@ -74,6 +76,7 @@ public:
 	virtual void Move();
 	virtual void AI();
 	virtual void Draw();
+
 	
 
 	const DIRECTION GetDir() const;

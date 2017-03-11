@@ -7,7 +7,6 @@
 #include "p2Log.h"
 #include "j1Pathfinding.h"
 #include "j1Map.h"
-#include "j1EntityManager.h"
 
 Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), direction(WEST), action_type(IDLE)
 {
@@ -22,6 +21,7 @@ Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), 
 		rate_of_fire = 2;
 		range = 1;
 		unit_class = INFANTRY;
+		unit_center = 6;
 		break;
 
 	case CAVALRYARCHER:
@@ -32,6 +32,7 @@ Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), 
 		rate_of_fire = 2;
 		range = 4;
 		unit_class = ARCHER;
+		unit_center = 12;
 		break;
 
 	case SIEGERAM:
@@ -66,23 +67,20 @@ void Unit::Update()
 
 void Unit::Move()
 {
-	if (App->input->GetMouseButtonDown(3) == KEY_DOWN)
+	if (App->input->GetMouseButtonDown(3) == KEY_DOWN && this->GetEntityStatus() == E_SELECTED)
 	{
 		App->input->GetMousePosition(destination.x, destination.y);
 		destination.x -= App->render->camera.x;
 		destination.y -= App->render->camera.y;
-		if (this->GetEntityStatus() == E_SELECTED)
+		if (this->GetPath({ destination.x, destination.y }) != -1)
 		{
-			if (this->GetPath({ destination.x, destination.y }) != -1)
-			{
-				this->action_type = WALK;
-				this->moving = true;
-			}
-			else
-			{
-				this->moving = false;
-				this->action_type = IDLE;
-			}
+			this->action_type = WALK;
+			this->moving = true;
+		}
+		else
+		{
+			this->moving = false;
+			this->action_type = IDLE;
 		}
 	}
 
@@ -103,25 +101,20 @@ void Unit::Move()
 			iPoint prv = App->map->WorldToMap(this->GetX(), this->GetY());
 
 			if (nxt.x > prv.x && nxt.y < prv.y)
-			{
 				this->direction = EAST;
-			}
+			
 			else if (nxt.x > prv.x && nxt.y > prv.y)
-			{
 				this->direction = SOUTH;
-			}
+			
 			else if (nxt.x > prv.x && nxt.y == prv.y)
-			{
 				this->direction = SOUTH_EAST;
-			}
+			
 			else if (nxt.x == prv.x && nxt.y > prv.y)
-			{
 				this->direction = SOUTH_WEST;
-			}
+			
 			else if (nxt.x < prv.x && nxt.y > prv.y)
-			{
 				this->direction = WEST;
-			}
+			
 			else if (nxt.x < prv.x && nxt.y < prv.y)
 				this->direction = NORTH;
 
@@ -130,9 +123,8 @@ void Unit::Move()
 
 			else if (nxt.x < prv.x && nxt.y == prv.y)
 				this->direction = NORTH_WEST;
-			
-
 		}
+
 		switch (this->direction)
 		{
 		case EAST: 
@@ -160,7 +152,6 @@ void Unit::Move()
 			this->SetPosition(this->GetX() - this->speed, this->GetY() - this->speed / XY_TILES_RELATION);
 			break;
 		default:
-			this->SetPosition(this->GetX() + this->speed, this->GetY() + this->speed/ XY_TILES_RELATION);
 			break;
 		}
 
@@ -179,6 +170,7 @@ void Unit::Move()
 
 void Unit::AI()
 {
+	/*TODO: delete this
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
 		action_type = ATTACK;
@@ -270,7 +262,7 @@ void Unit::AI()
 
 		anim->Reset();
 	}
-
+	*/
 }
 
 void Unit::Draw()
@@ -285,6 +277,9 @@ void Unit::Draw()
 		App->render->Blit(tex, GetX(), GetY(), &rect, SDL_FLIP_HORIZONTAL, pivot.x, pivot.y);
 	else
 		App->render->Blit(tex, GetX() - pivot.x, GetY() - pivot.y, &rect);
+
+	if (this->GetEntityStatus() == E_SELECTED)
+		App->render->DrawCircle(this->GetX() + App->render->camera.x, this->GetY() + App->render->camera.y, this->unit_center, 255, 255, 255);
 }
 
 const DIRECTION Unit::GetDir() const

@@ -3,7 +3,7 @@
 #include "Units.h"
 j1EntityManager::j1EntityManager() : j1Module()
 {
-	name.assign("Units");
+	name.assign("entity_manager");
 }
 
 j1EntityManager::~j1EntityManager() {}

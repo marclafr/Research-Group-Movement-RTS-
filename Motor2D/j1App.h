@@ -22,6 +22,7 @@ class j1Fonts;
 class j1Animation;
 class j1UIManager;
 class j1EntityManager;
+class j1Collision;
 
 class j1App
 {
@@ -99,6 +100,7 @@ public:
 	j1Animation*		anim = NULL;
 	j1UIManager*		uimanager = NULL;
 	j1EntityManager*    entity_manager = NULL;
+	j1Collision*		collision = NULL;
 
 private:
 
