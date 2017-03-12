@@ -2,6 +2,7 @@
 #define _j1Collision_
 
 #include "j1Module.h"
+#include "j1EntityManager.h"
 
 class j1Collision : public j1Module
 {
@@ -13,5 +14,8 @@ public:
 	bool Update(float dt);
 
 private:
+
+	bool DoUnitsIntersect(Unit* unit1, Unit* unit2);
+	//iPoint FindClosestWalkable
 };
 #endif //_j1Collision_

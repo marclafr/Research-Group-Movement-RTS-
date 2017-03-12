@@ -65,11 +65,12 @@ private:
 	bool moving = false;
 	UNIT_CLASS unit_class;
 	std::list<iPoint> path_list;
-	int unit_center;
 
 public:
 
 	Unit(UNIT_TYPE u_type, fPoint pos);
+
+	int unit_radius;
 
 	void Update(); // defines order
 

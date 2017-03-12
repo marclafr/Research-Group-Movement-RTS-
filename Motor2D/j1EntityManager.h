@@ -28,8 +28,9 @@ public:
 	void DeleteEntity(Entity* ptr); // will call other delete methods
 	void DeleteUnit(Entity* ptr);
 
-private:
 	std::list<Entity*> entity_list;
+
+private:
 };
 #endif //_j1EntityManager_
 

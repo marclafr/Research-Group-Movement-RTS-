@@ -1,6 +1,7 @@
 #include "j1App.h"
 #include "j1EntityManager.h"
 #include "Units.h"
+
 j1EntityManager::j1EntityManager() : j1Module()
 {
 	name.assign("entity_manager");

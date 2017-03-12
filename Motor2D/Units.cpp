@@ -21,7 +21,7 @@ Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), 
 		rate_of_fire = 2;
 		range = 1;
 		unit_class = INFANTRY;
-		unit_center = 6;
+		unit_radius = 6;
 		break;
 
 	case CAVALRYARCHER:
@@ -32,7 +32,7 @@ Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), 
 		rate_of_fire = 2;
 		range = 4;
 		unit_class = ARCHER;
-		unit_center = 12;
+		unit_radius = 12;
 		break;
 
 	case SIEGERAM:
@@ -61,7 +61,7 @@ void Unit::Update()
 
 	if (App->pathfinding->IsWalkable({ pos.x, pos.y }) == false && (direction == NORTH || direction == SOUTH || direction == EAST || direction == WEST))
 	{
-		this->SetPosition(500, 500);
+		//this->SetPosition(500, 500);
 	}
 }
 
@@ -69,9 +69,10 @@ void Unit::Move()
 {
 	if (App->input->GetMouseButtonDown(3) == KEY_DOWN && this->GetEntityStatus() == E_SELECTED)
 	{
+		this->path_list.clear();
 		App->input->GetMousePosition(destination.x, destination.y);
-		destination.x -= App->render->camera.x;
-		destination.y -= App->render->camera.y;
+		destination.x -= App->render->camera.x + 32;
+		destination.y -= App->render->camera.y + 16;
 		if (this->GetPath({ destination.x, destination.y }) != -1)
 		{
 			this->action_type = WALK;
@@ -87,7 +88,7 @@ void Unit::Move()
 	if (this->moving == true)
 	{
 		iPoint dest_map = App->map->WorldToMap(destination.x, destination.y);
-		iPoint unit_map = App->map->WorldToMap(this->GetX() , this->GetY());
+		iPoint unit_map = App->map->WorldToMap(this->GetX(), this->GetY());
 
 		//iPoint next_step_world = App->map->MapToWorld(path_list.front().x, path_list.front().y);
 
@@ -102,19 +103,19 @@ void Unit::Move()
 
 			if (nxt.x > prv.x && nxt.y < prv.y)
 				this->direction = EAST;
-			
+
 			else if (nxt.x > prv.x && nxt.y > prv.y)
 				this->direction = SOUTH;
-			
+
 			else if (nxt.x > prv.x && nxt.y == prv.y)
 				this->direction = SOUTH_EAST;
-			
+
 			else if (nxt.x == prv.x && nxt.y > prv.y)
 				this->direction = SOUTH_WEST;
-			
+
 			else if (nxt.x < prv.x && nxt.y > prv.y)
 				this->direction = WEST;
-			
+
 			else if (nxt.x < prv.x && nxt.y < prv.y)
 				this->direction = NORTH;
 
@@ -123,6 +124,9 @@ void Unit::Move()
 
 			else if (nxt.x < prv.x && nxt.y == prv.y)
 				this->direction = NORTH_WEST;
+
+			else
+				this->direction = NO_DIRECTION;
 		}
 
 		switch (this->direction)
@@ -170,99 +174,6 @@ void Unit::Move()
 
 void Unit::AI()
 {
-	/*TODO: delete this
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
-	{
-		action_type = ATTACK;
-		Animation* anim = nullptr;
-		if (direction == EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, WEST);
-
-		else if (direction == NORTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, NORTH_WEST);
-
-		else if (direction == SOUTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, SOUTH_WEST);
-
-		else
-			anim = App->anim->GetAnimation(unit_type, action_type, direction);
-
-		anim->Reset();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-	{
-		action_type = IDLE;
-		Animation* anim = nullptr;
-		if (direction == EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, WEST);
-
-		else if (direction == NORTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, NORTH_WEST);
-
-		else if (direction == SOUTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, SOUTH_WEST);
-
-		else
-			anim = App->anim->GetAnimation(unit_type, action_type, direction);
-
-		anim->Reset();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	{
-		action_type = WALK;
-		Animation* anim = nullptr;
-		if (direction == EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, WEST);
-
-		else if (direction == NORTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, NORTH_WEST);
-
-		else if (direction == SOUTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, SOUTH_WEST);
-
-		else
-			anim = App->anim->GetAnimation(unit_type, action_type, direction);
-
-		anim->Reset();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-	{
-		action_type = DISAPPEAR;
-		Animation* anim = nullptr;
-		if (direction == EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, WEST);
-		
-		else if (direction == NORTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, NORTH_WEST);
-
-		else if (direction == SOUTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, SOUTH_WEST);
-
-		else
-			anim = App->anim->GetAnimation(unit_type, action_type, direction);
-
-		anim->Reset();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-		action_type = DIE;
-		Animation* anim = nullptr;
-		if (direction == EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, WEST);
-
-		else if (direction == NORTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, NORTH_WEST);
-
-		else if (direction == SOUTH_EAST)
-			anim = App->anim->GetAnimation(unit_type, action_type, SOUTH_WEST);
-
-		else
-			anim = App->anim->GetAnimation(unit_type, action_type, direction);
-
-		anim->Reset();
-	}
-	*/
 }
 
 void Unit::Draw()
@@ -279,7 +190,7 @@ void Unit::Draw()
 		App->render->Blit(tex, GetX() - pivot.x, GetY() - pivot.y, &rect);
 
 	if (this->GetEntityStatus() == E_SELECTED)
-		App->render->DrawCircle(this->GetX() + App->render->camera.x, this->GetY() + App->render->camera.y, this->unit_center, 255, 255, 255);
+		App->render->DrawCircle(this->GetX() + App->render->camera.x, this->GetY() + App->render->camera.y, this->unit_radius, 255, 255, 255);
 }
 
 const DIRECTION Unit::GetDir() const
