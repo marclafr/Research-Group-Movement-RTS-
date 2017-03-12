@@ -27,7 +27,8 @@ bool j1EntityManager::CleanUp()
 
 Entity * j1EntityManager::CreateUnit(UNIT_TYPE u_type, fPoint pos)
 {
-	Entity* new_entity = (Entity*) new Unit(u_type, pos);
+	id++;
+	Entity* new_entity = (Entity*) new Unit(u_type, pos, id);
 	entity_list.push_back(new_entity);
 	return new_entity;
 }

@@ -46,10 +46,10 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	//App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
-	//App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
-	//App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(630, 430));
-	//App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(660, 460));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(630, 430));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(660, 460));
 	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(690, 390));
 	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(700, 360));
 

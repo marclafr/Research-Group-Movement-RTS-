@@ -31,6 +31,7 @@ public:
 	std::list<Entity*> entity_list;
 
 private:
+	int id = 0;
 };
 #endif //_j1EntityManager_
 

@@ -8,7 +8,7 @@
 #include "j1Pathfinding.h"
 #include "j1Map.h"
 
-Unit::Unit(UNIT_TYPE u_type, fPoint pos): Entity(UNIT, pos), unit_type(u_type), direction(WEST), action_type(IDLE)
+Unit::Unit(UNIT_TYPE u_type, fPoint pos, int id): Entity(UNIT, pos), unit_type(u_type), direction(WEST), action_type(IDLE), id(id)
 {
 	switch (u_type)
 	{

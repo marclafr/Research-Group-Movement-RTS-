@@ -68,9 +68,10 @@ private:
 
 public:
 
-	Unit(UNIT_TYPE u_type, fPoint pos);
+	Unit(UNIT_TYPE u_type, fPoint pos, int id);
 
 	int unit_radius;
+	int id;
 
 	void Update(); // defines order
 
