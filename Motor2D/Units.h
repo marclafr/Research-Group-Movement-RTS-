@@ -5,6 +5,7 @@
 
 
 #define XY_TILES_RELATION 2
+#define RAD_TO_DEG 57.29577951
 
 struct PathList;
 struct PathNode;
@@ -54,7 +55,6 @@ class Unit : public Entity
 {
 private:
 	enum UNIT_TYPE unit_type;
-	enum ACTION_TYPE action_type;
 	enum DIRECTION direction;
 
 	int attack;
@@ -63,13 +63,16 @@ private:
 	float rate_of_fire;
 	iPoint destination;
 	UNIT_CLASS unit_class;
-	std::list<iPoint> path_list;
 	iPoint path_objective;
 	fPoint move_vector;
 	float angle;
-	bool GetNextTile();
 
 public:
+	std::list<iPoint> path_list;
+	enum ACTION_TYPE action_type;
+	bool GetNextTile();
+	//should be private gotta change TODO
+
 
 	Unit(UNIT_TYPE u_type, fPoint pos, int id);
 
@@ -81,9 +84,7 @@ public:
 
 	virtual void Move();
 	virtual void AI();
-	virtual void Draw();
-
-	
+	virtual void Draw();	
 
 	const DIRECTION GetDir() const;
 	const UNIT_TYPE GetUnitType() const;
@@ -92,4 +93,3 @@ public:
 };
 
 #endif
-

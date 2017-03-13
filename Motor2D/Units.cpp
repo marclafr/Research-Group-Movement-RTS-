@@ -7,63 +7,7 @@
 #include "p2Log.h"
 #include "j1Pathfinding.h"
 #include "j1Map.h"
-
-bool Unit::GetNextTile()
-{
-	bool ret = true;
-
-	if (path_list.size() == 0)
-		return false;
-
-	path_objective = App->map->MapToWorld(path_list.front().x, path_list.front().y);
-	path_list.pop_front();
-
-	move_vector.x = (float)path_objective.x - GetX();
-	move_vector.y = (float)path_objective.y - GetY();
-	float modul = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
-	move_vector.x = move_vector.x / modul;
-	move_vector.y = move_vector.y / modul;
-	float ang_test = (float)57.29577951 * atan2(-move_vector.y, move_vector.x);
-	LOG("ang_test: %f", ang_test);
-
-	iPoint direction_vec;
-	direction_vec.x = path_objective.x - GetX();
-	direction_vec.y = GetY() - path_objective.y;
-	angle = (float)57.29577951 * atan2(direction_vec.y, direction_vec.x);
-
-	if (angle < 0)
-		angle += 360;
-	
-	
-	if ((0 <= angle &&  angle <= 22.5) || (337.5 <= angle&& angle <= 360))
-		this->direction = EAST;
-
-	else if (22.5 <= angle &&  angle <= 67.5)
-		this->direction = NORTH_EAST;
-
-	else if (67.5 <= angle &&  angle <= 112.5)
-		this->direction = NORTH;
-
-	else if (112.5 <= angle &&  angle <= 157.5)
-		this->direction = NORTH_WEST;
-
-	else if (157.5 <= angle &&  angle <= 202.5)
-		this->direction = WEST;
-
-	else if (202.5 <= angle &&  angle <= 247.5)
-		this->direction = SOUTH_WEST;
-
-	else if (247.5 <= angle &&  angle <= 292.5)
-		this->direction = SOUTH;
-
-	else if (292.5 <= angle &&  angle <= 337.5)
-		this->direction = SOUTH_EAST;
-
-	else
-		this->direction = NO_DIRECTION;
-
-	return ret;
-}
+#include "j1EntityManager.h"
 
 Unit::Unit(UNIT_TYPE u_type, fPoint pos, int id): Entity(UNIT, pos), unit_type(u_type), direction(WEST), action_type(IDLE), id(id)
 {
@@ -114,12 +58,6 @@ void Unit::Update()
 	AI();
 	Move();
 	Draw();
-	iPoint pos = App->map->WorldToMap(this->GetX(), this->GetY());
-
-	if (App->pathfinding->IsWalkable({ pos.x, pos.y }) == false && (direction == NORTH || direction == SOUTH || direction == EAST || direction == WEST))
-	{
-		//this->SetPosition(500, 500);
-	}
 }
 
 void Unit::Move()
@@ -143,13 +81,12 @@ void Unit::Move()
 			this->action_type = IDLE;
 		}
 	}
+	//TODO: Delete axis
 	App->render->DrawLine(0, 0, 1000, 0, 255, 255, 255);
 	App->render->DrawLine(0, 0, 0, 1000, 255, 255, 255);
 
 	if (this->moving == true)
 	{
-		
-
 		this->SetPosition(GetX() + move_vector.x*speed, GetY() + move_vector.y*speed);
 
 		iPoint unit_world;
@@ -167,11 +104,6 @@ void Unit::Move()
 
 		}
 	}
-
-	//TODO: Delete this
-	iPoint actual_pos_test;
-	actual_pos_test = App->map->WorldToMap(this->GetX(), this->GetY());
-	int i = 0;
 }
 
 void Unit::AI()
@@ -215,4 +147,61 @@ int Unit::GetPath(iPoint dest)
 	iPoint ori = App->map->WorldToMap(GetX(), GetY());
 	iPoint destinat = App->map->WorldToMap(dest.x, dest.y);
 	return App->pathfinding->CreatePath(ori, destinat, path_list);
+}
+
+bool Unit::GetNextTile()
+{
+	bool ret = true;
+
+	if (path_list.size() == 0)
+		return false;
+
+	path_objective = App->map->MapToWorld(path_list.front().x, path_list.front().y);
+	path_list.pop_front();
+
+	move_vector.x = (float)path_objective.x - GetX();
+	move_vector.y = (float)path_objective.y - GetY();
+	float modul = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
+	move_vector.x = move_vector.x / modul;
+	move_vector.y = move_vector.y / modul;
+	float ang_test = (float)RAD_TO_DEG * atan2(-move_vector.y, move_vector.x);
+	LOG("ang_test: %f", ang_test);
+
+	iPoint direction_vec;
+	direction_vec.x = path_objective.x - GetX();
+	direction_vec.y = GetY() - path_objective.y;
+	angle = (float)RAD_TO_DEG * atan2(direction_vec.y, direction_vec.x);
+
+	if (angle < 0)
+		angle += 360;
+
+
+	if ((0 <= angle &&  angle <= 22.5) || (337.5 <= angle&& angle <= 360))
+		this->direction = EAST;
+
+	else if (22.5 <= angle &&  angle <= 67.5)
+		this->direction = NORTH_EAST;
+
+	else if (67.5 <= angle &&  angle <= 112.5)
+		this->direction = NORTH;
+
+	else if (112.5 <= angle &&  angle <= 157.5)
+		this->direction = NORTH_WEST;
+
+	else if (157.5 <= angle &&  angle <= 202.5)
+		this->direction = WEST;
+
+	else if (202.5 <= angle &&  angle <= 247.5)
+		this->direction = SOUTH_WEST;
+
+	else if (247.5 <= angle &&  angle <= 292.5)
+		this->direction = SOUTH;
+
+	else if (292.5 <= angle &&  angle <= 337.5)
+		this->direction = SOUTH_EAST;
+
+	else
+		this->direction = NO_DIRECTION;
+
+	return ret;
 }

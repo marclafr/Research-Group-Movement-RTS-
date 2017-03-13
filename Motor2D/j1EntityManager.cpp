@@ -1,6 +1,7 @@
 #include "j1App.h"
 #include "j1EntityManager.h"
 #include "Units.h"
+#include "j1Map.h"
 
 j1EntityManager::j1EntityManager() : j1Module()
 {
@@ -78,6 +79,18 @@ void j1EntityManager::DeleteEntity(Entity * ptr)
 
 void j1EntityManager::DeleteUnit(Entity * ptr)
 {
+}
+
+
+bool j1EntityManager::IsUnitInTile(const iPoint& pos)const
+{
+	for (std::list<Entity*>::iterator unit = App->entity_manager->entity_list.begin(); unit != App->entity_manager->entity_list.end(); unit++)
+	{
+		if (App->map->WorldToMap(pos.x, pos.y) != App->map->WorldToMap(unit._Ptr->_Myval->GetX(), unit._Ptr->_Myval->GetY()))
+			return true;
+	}
+
+	return false;
 }
 
 bool j1EntityManager::Update(float dt)

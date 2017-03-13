@@ -29,6 +29,7 @@ public:
 	void DeleteUnit(Entity* ptr);
 
 	std::list<Entity*> entity_list;
+	bool IsUnitInTile(const iPoint& pos)const;
 
 private:
 	int id = 0;
