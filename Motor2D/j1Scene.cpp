@@ -46,7 +46,7 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(20, 200));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(30, 170));
 	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(600, 400));
 	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(630, 430));
 	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(660, 460));
@@ -89,11 +89,10 @@ bool j1Scene::Update(float dt)
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x - 32, p.y - 16);
+	p = App->map->WorldToMap(p.x, p.y);
 	p = App->map->MapToWorld(p.x, p.y);
 
-	//TODO: remove? App->render->Blit(debug_tex, p.x - App->map->data.tile_width / 2, p.y - App->map->data.tile_height / 2);
-	App->render->Blit(debug_tex, p.x, p.y);
+	App->render->Blit(debug_tex, p.x - 32, p.y - 32);
 
 	const std::vector<iPoint>* path = App->pathfinding->GetLastPath();
 	
@@ -104,8 +103,7 @@ bool j1Scene::Update(float dt)
 		while(item != path->end())
 		{
 			iPoint pos = App->map->MapToWorld(item->x, item->y);
-			App->render->Blit(debug_tex, pos.x, pos.y);
-			//TODO: remove? App->render->Blit(debug_tex, pos.x - App->map->data.tile_width / 2, pos.y - App->map->data.tile_height / 2);
+			App->render->Blit(debug_tex, pos.x - 32, pos.y - 32);
 			item++;
 		}
 	}

@@ -16,24 +16,30 @@ bool j1Collision::Update(float dt)
 {
 	bool ret = true;
 
-	//Check colisions between units
 	for (std::list<Entity*>::iterator unit1 = App->entity_manager->entity_list.begin(); unit1 != App->entity_manager->entity_list.end(); unit1++)
 	{
-		for (std::list<Entity*>::iterator unit2 = App->entity_manager->entity_list.begin(); unit2 != App->entity_manager->entity_list.end(); unit2++)
+		iPoint pos = App->map->WorldToMap(unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
+		Unit* unit_1 = (Unit*)unit1._Ptr->_Myval;
+		if (!App->pathfinding->IsWalkable(pos) && unit_1->moving == false)
 		{
-			if (unit1 != unit2) 
+			iPoint tile = FindClosestWalkable(unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
+			unit1._Ptr->_Myval->SetPosition(tile.x, tile.y);
+		}
+		else
+		{
+			//Check colisions between units
+			for (std::list<Entity*>::iterator unit2 = App->entity_manager->entity_list.begin(); unit2 != App->entity_manager->entity_list.end(); unit2++)
 			{
-				if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
+				if (unit1 != unit2)
 				{
-					//Collision detected
-					Unit* unit_1 = (Unit*)unit1._Ptr->_Myval;
-					Unit* unit_2 = (Unit*)unit2._Ptr->_Myval;
-					if (unit_1->id > unit_2->id)
+					if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
 					{
-						//iPoint tile = FindClosestWalkable(unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
-						//TEST: iPoint map_tile = App->map->WorldToMap(tile.x, tile.y);
-						//unit1._Ptr->_Myval->SetPosition(tile.x, tile.y);
-						SplitUnits((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval);
+						//Collision detected
+						Unit* unit_2 = (Unit*)unit2._Ptr->_Myval;
+						if (unit_1->id > unit_2->id && unit_1->moving == false)
+						{
+							SplitUnits((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval);
+						}
 					}
 				}
 			}
@@ -53,43 +59,50 @@ bool j1Collision::DoUnitsIntersect(Unit* unit1, Unit* unit2)
 iPoint j1Collision::FindClosestWalkable(int x, int y)
 {
 	bool found = false;
-	int lenght = 3;
 
-	iPoint tile = { x + lenght / 2, y - lenght / 2 - 1 };
+	iPoint tile = App->map->WorldToMap(x, y);
+	iPoint origin = App->map->WorldToMap(x, y);
 
-	while (!found && lenght < 20)
+	int dist = 1;
+
+	while (!found)
 	{
-		while (tile.y < y + lenght / 2 && !found)
+		tile.y += dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
 		{
-			tile.y++;
-			if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
-				found = true;
+			found = true;
+			break;
 		}
 
-		while (tile.x > x - lenght / 2 && !found)
+		tile.y -= dist;
+		tile.y -= dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
 		{
-			tile.x--;
-			if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
-				found = true;
+			found = true;
+			break;
 		}
 
-		while (tile.y > y - lenght / 2 && !found)
+		tile.y += dist;
+		tile.x += dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
 		{
-			tile.y--;
-			if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
-				found = true;
-
+			found = true;
+			break;
 		}
 
-		while (tile.x < x + lenght / 2 && !found)
+		tile.x -= dist;
+		tile.x -= dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
 		{
-			tile.x++;
-			if (App->pathfinding->IsWalkable({ tile.x, tile.y }))
-				found = true;
+			found = true;
+			break;
 		}
-		lenght += 2;
+
+		dist++;
 	}
-	return tile;
+
+	return App->map->MapToWorld(tile.x, tile.y);
+
 }
 
 void j1Collision::SplitUnits(Unit * unit1, Unit * unit2)
