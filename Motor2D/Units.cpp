@@ -142,11 +142,26 @@ const ACTION_TYPE Unit::GetActionType() const
 	return action_type;
 }
 
+void Unit::SetAction(const ACTION_TYPE action)
+{
+	action_type = action;
+}
+
 int Unit::GetPath(iPoint dest)
 {
 	iPoint ori = App->map->WorldToMap(GetX(), GetY());
 	iPoint destinat = App->map->WorldToMap(dest.x, dest.y);
 	return App->pathfinding->CreatePath(ori, destinat, path_list);
+}
+
+void Unit::PopFirstPath()
+{
+	path_list.pop_front();
+}
+
+void Unit::AddPath(iPoint new_goal)
+{
+	path_list.push_back(new_goal);
 }
 
 bool Unit::GetNextTile()
@@ -161,9 +176,9 @@ bool Unit::GetNextTile()
 
 	move_vector.x = (float)path_objective.x - GetX();
 	move_vector.y = (float)path_objective.y - GetY();
-	float modul = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
-	move_vector.x = move_vector.x / modul;
-	move_vector.y = move_vector.y / modul;
+	float module = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
+	move_vector.x = move_vector.x / module;
+	move_vector.y = move_vector.y / module;
 	float ang_test = (float)RAD_TO_DEG * atan2(-move_vector.y, move_vector.x);
 	LOG("ang_test: %f", ang_test);
 

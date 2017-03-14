@@ -55,6 +55,7 @@ class Unit : public Entity
 {
 private:
 	enum UNIT_TYPE unit_type;
+	enum ACTION_TYPE action_type; 
 	enum DIRECTION direction;
 
 	int attack;
@@ -66,10 +67,10 @@ private:
 	iPoint path_objective;
 	fPoint move_vector;
 	float angle;
+	std::list<iPoint> path_list;
 
 public:
-	std::list<iPoint> path_list;
-	enum ACTION_TYPE action_type;
+
 	bool GetNextTile();
 	//should be private gotta change TODO
 
@@ -89,7 +90,10 @@ public:
 	const DIRECTION GetDir() const;
 	const UNIT_TYPE GetUnitType() const;
 	const ACTION_TYPE GetActionType() const;
+	void SetAction(const ACTION_TYPE action);
 	int GetPath(iPoint dest);
+	void PopFirstPath();
+	void AddPath(iPoint new_goal);
 };
 
 #endif

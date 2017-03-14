@@ -22,7 +22,7 @@ bool j1Collision::Update(float dt)
 		Unit* unit_1 = (Unit*)unit1._Ptr->_Myval;
 		if (!App->pathfinding->IsWalkable(pos) && unit_1->moving == false)
 		{
-			iPoint tile = FindClosestWalkable(unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
+			iPoint tile = FindClosestWalkable((Unit*)unit1._Ptr->_Myval, unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
 			unit1._Ptr->_Myval->SetPosition(tile.x, tile.y);
 		}
 		else
@@ -56,19 +56,19 @@ bool j1Collision::DoUnitsIntersect(Unit* unit1, Unit* unit2)
 	return (sqrt(distance_x * distance_x + distance_y * distance_y) < unit1->unit_radius + unit2->unit_radius);
 }
 
-iPoint j1Collision::FindClosestWalkable(int x, int y)
+iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 {
 	bool found = false;
 
-	iPoint tile = App->map->WorldToMap(x, y);
-	iPoint origin = App->map->WorldToMap(x, y);
+	iPoint tile = App->map->WorldToMap(unit->GetX(), unit->GetY());
+	iPoint origin = tile;
 
 	int dist = 1;
 
 	while (!found)
 	{
-		tile.y += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		tile.y += dist;// && App->entity_manager->IsUnitInTile(unit) == false TODO delete this?
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -76,7 +76,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.y -= dist;
 		tile.y -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -84,7 +84,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.y += dist;
 		tile.x += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -92,7 +92,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.x -= dist;
 		tile.x -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -100,7 +100,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		//diagonals
 		tile.y -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -108,7 +108,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.y += dist;
 		tile.y += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -116,7 +116,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.x += dist;
 		tile.x += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -124,7 +124,7 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 
 		tile.x -= dist;
 		tile.x -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile({ tile.x,tile.y }) == false)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
 		{
 			found = true;
 			break;
@@ -133,43 +133,45 @@ iPoint j1Collision::FindClosestWalkable(int x, int y)
 	}
 
 	return App->map->MapToWorld(tile.x, tile.y);
-
 }
 
 void j1Collision::SplitUnits(Unit * unit1, Unit * unit2)
 {
-	/*//axis X
-	if (unit1->GetX() > unit2->GetX())
-	{
-		unit1->SetPosition(unit1->GetX() + 1, unit1->GetY());
-	}
-	if (unit1->GetX() < unit2->GetX())
-	{
-		unit1->SetPosition(unit1->GetX() - 1, unit1->GetY());
-	}
-	//axis Y
-	if (unit1->GetY() > unit2->GetY())
-	{
-		unit1->SetPosition(unit1->GetX(), unit1->GetY() + 1);
-	}
-	if (unit1->GetY() < unit2->GetY())
-	{
-		unit1->SetPosition(unit1->GetX(), unit1->GetY() - 1);
-	}*/
-	
-	/*switch (unit1->GetDir())
-	{
-	case SOUTH_EAST:
-		unit1->SetPosition(unit1->GetX() + 1, unit1->GetY() - 1);
-		break;
-	case SOUTH_WEST:
-		unit1->SetPosition(unit1->GetX() + 1, unit1->GetY() + 1);
-		break;
-	}*/
-
-	unit1->GetPath(FindClosestWalkable(unit1->GetX(), unit1->GetY()));
-	unit1->path_list.pop_front();
+	/*unit1->GetPath(FindClosestWalkable(unit1, unit1->GetX(), unit1->GetY()));//should be a pushback not calculating all the path
+	unit1->PopFirstPath();
 	unit1->GetNextTile();
-	unit1->action_type = WALK;
+	unit1->SetAction(WALK);
 	unit1->moving = true;
+	*/
+
+	fPoint vector = {unit1->GetX() - unit2->GetX(), unit1->GetY() - unit2->GetY()};
+	if (vector.x < 0)
+		vector.x *= -1;
+	if (vector.y < 0)
+		vector.y *= -1;
+
+	float module = (sqrt(vector.x*vector.x + vector.y * vector.y));
+	//float angle = 0;
+
+	vector.x += unit1->unit_radius + unit2->unit_radius + 1;
+	vector.y += unit1->unit_radius + unit2->unit_radius + 1;
+	if (module == 0)
+		vector.x = unit1->unit_radius + unit2->unit_radius + 1;
+
+	fPoint pos;
+	pos.x = vector.x + unit1->GetX();
+	pos.y = vector.y + unit1->GetY();
+	iPoint tile = App->map->WorldToMap(pos.x, pos.y);
+		
+	while (App->pathfinding->IsWalkable({ tile.x, tile.y }) == false)
+	{
+		pos.x = unit1->GetX() + vector.x;
+		pos.y = unit1->GetY() + vector.y;
+		tile = App->map->WorldToMap(pos.x, pos.y);
+	}
+	
+	unit2->AddPath(tile);
+	unit2->GetNextTile();
+	unit2->moving = true;
+	unit2->SetAction(WALK);
 }

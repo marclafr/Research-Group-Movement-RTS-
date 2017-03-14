@@ -81,18 +81,22 @@ void j1EntityManager::DeleteUnit(Entity * ptr)
 {
 }
 
-
-bool j1EntityManager::IsUnitInTile(const iPoint& pos)const
+//TODO: Delete this
+/*
+bool j1EntityManager::IsUnitInTile(const Unit* unit)const
 {
-	for (std::list<Entity*>::iterator unit = App->entity_manager->entity_list.begin(); unit != App->entity_manager->entity_list.end(); unit++)
+	for (std::list<Entity*>::iterator units = App->entity_manager->entity_list.begin(); units != App->entity_manager->entity_list.end(); units++)
 	{
-		if (App->map->WorldToMap(pos.x, pos.y) != App->map->WorldToMap(unit._Ptr->_Myval->GetX(), unit._Ptr->_Myval->GetY()))
-			return true;
+		if (units._Ptr->_Myval != unit)
+		{
+			if (App->map->WorldToMap(unit->GetX(), unit->GetY()) != App->map->WorldToMap(units._Ptr->_Myval->GetX(), units._Ptr->_Myval->GetY()))
+				return true;
+		}
 	}
 
 	return false;
 }
-
+*/
 bool j1EntityManager::Update(float dt)
 {
 
