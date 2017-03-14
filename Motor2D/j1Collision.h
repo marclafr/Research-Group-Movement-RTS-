@@ -16,7 +16,7 @@ public:
 private:
 
 	bool DoUnitsIntersect(Unit* unit1, Unit* unit2);
-	iPoint FindClosestWalkable(Unit* unit, int x, int y);
+	iPoint FindClosestWalkable(Unit* unit);
 	void SplitUnits(Unit* unit1, Unit* unit2);
 };
 #endif //_j1Collision_

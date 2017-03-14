@@ -20,9 +20,10 @@ bool j1Collision::Update(float dt)
 	{
 		iPoint pos = App->map->WorldToMap(unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
 		Unit* unit_1 = (Unit*)unit1._Ptr->_Myval;
+		//this shouldn't happen, but if any case:
 		if (!App->pathfinding->IsWalkable(pos) && unit_1->moving == false)
 		{
-			iPoint tile = FindClosestWalkable((Unit*)unit1._Ptr->_Myval, unit1._Ptr->_Myval->GetX(), unit1._Ptr->_Myval->GetY());
+			iPoint tile = FindClosestWalkable((Unit*)unit1._Ptr->_Myval);
 			unit1._Ptr->_Myval->SetPosition(tile.x, tile.y);
 		}
 		else
@@ -56,7 +57,7 @@ bool j1Collision::DoUnitsIntersect(Unit* unit1, Unit* unit2)
 	return (sqrt(distance_x * distance_x + distance_y * distance_y) < unit1->unit_radius + unit2->unit_radius);
 }
 
-iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
+iPoint j1Collision::FindClosestWalkable(Unit* unit)
 {
 	bool found = false;
 
@@ -67,8 +68,8 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 	while (!found)
 	{
-		tile.y += dist;// && App->entity_manager->IsUnitInTile(unit) == false TODO delete this?
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		tile.y += dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -76,7 +77,7 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		tile.y -= dist;
 		tile.y -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -84,7 +85,7 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		tile.y += dist;
 		tile.x += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -92,7 +93,7 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		tile.x -= dist;
 		tile.x -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -100,7 +101,7 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		//diagonals
 		tile.y -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -108,7 +109,7 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		tile.y += dist;
 		tile.y += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
@@ -116,19 +117,23 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 		tile.x += dist;
 		tile.x += dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
 		}
 
-		tile.x -= dist;
-		tile.x -= dist;
-		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true)
+		tile.y -= dist;
+		tile.y -= dist;
+		if (App->pathfinding->IsWalkable({ tile.x, tile.y }) == true && App->entity_manager->IsUnitInTile(unit, tile) == false)
 		{
 			found = true;
 			break;
 		}
+
+		//back to origin and increment the tile distance
+		tile.x--;
+		tile.y++;
 		dist++;
 	}
 
@@ -137,14 +142,14 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit, int x, int y)
 
 void j1Collision::SplitUnits(Unit * unit1, Unit * unit2)
 {
-	/*unit1->GetPath(FindClosestWalkable(unit1, unit1->GetX(), unit1->GetY()));//should be a pushback not calculating all the path
+	unit1->GetPath(FindClosestWalkable(unit1));
 	unit1->PopFirstPath();
 	unit1->GetNextTile();
 	unit1->SetAction(WALK);
 	unit1->moving = true;
-	*/
+	
 
-	fPoint vector = {unit1->GetX() - unit2->GetX(), unit1->GetY() - unit2->GetY()};
+	/*fPoint vector = {unit1->GetX() - unit2->GetX(), unit1->GetY() - unit2->GetY()};
 	if (vector.x < 0)
 		vector.x *= -1;
 	if (vector.y < 0)
@@ -173,5 +178,5 @@ void j1Collision::SplitUnits(Unit * unit1, Unit * unit2)
 	unit2->AddPath(tile);
 	unit2->GetNextTile();
 	unit2->moving = true;
-	unit2->SetAction(WALK);
+	unit2->SetAction(WALK);*/
 }
