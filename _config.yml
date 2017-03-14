@@ -1,5 +1,15 @@
 theme: jekyll-theme-tactile
 
-title:  Group Movement in a RTS game
+title:  Group Movement in a RTS
 
-description: test
+description: test1description
+
+head:
+{
+  test2head
+}
+
+body
+{
+  test3body
+}
