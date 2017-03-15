@@ -187,16 +187,19 @@ float PathNode::Score() const
 // ----------------------------------------------------------------------------------
 int PathNode::CalculateF(const iPoint& destination)
 {
-	if (parent->pos.DistanceManhattan(pos) == 2){
-		g = parent->g + 1;
+	if (parent->pos.DistanceManhattan(pos) == 1)
+	{
+		g = parent->g + 10;
 	}
-	else if (parent->pos.DistanceManhattan(pos) == 4) {
-		g = parent->g + 5;
+	else if (parent->pos.DistanceManhattan(pos) == 2) 
+	{
+		g = parent->g + 14;
 	}
-	else {
-		g = parent->g + 1;
+	else 
+	{
+		g = parent->g + 10;
 	}
-	h = pos.DistanceManhattan(destination)*10;
+	h = pos.DistanceToH(destination);
 	return  g + h;
 }
 

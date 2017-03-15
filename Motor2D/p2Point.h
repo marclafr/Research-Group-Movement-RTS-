@@ -114,6 +114,14 @@ public:
 		return sqrtf((fx*fx) + (fy*fy));
 	}
 
+	TYPE DistanceToH(const p2Point& v) const
+	{
+		int dx = abs(v.x - x);
+		int dy = abs(v.y - y);
+		if (dx > dy) return (14 * dy + 10 * (dx - dy));
+		else return 14 * dx + 10 * (dy - dx);
+	}
+
 	TYPE DistanceNoSqrt(const p2Point& v) const
 	{
 		TYPE fx = x - v.x;
@@ -126,7 +134,7 @@ public:
 	{
 		int dx = abs(v.x - x);
 		int dy = abs(v.y - y);
-		int res =2*(dx + dy);
+		int res = (dx + dy);
 		return res;
 	}
 };
