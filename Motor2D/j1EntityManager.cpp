@@ -36,26 +36,34 @@ Entity * j1EntityManager::CreateUnit(UNIT_TYPE u_type, fPoint pos)
 
 void j1EntityManager::SelectInQuad(const SDL_Rect& select_rect)
 {
+	int unit_selected_count = 0;
 	for (std::list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
 	{
+		if (unit_selected_count >= MAX_UNIT_SELECTED)
+			break;
+
 		int unit_x = it._Ptr->_Myval->GetX();
 		int unit_y = it._Ptr->_Myval->GetY();
 		if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
 		{
 			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+			unit_selected_count++;
 		}
 		else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
 		{
 			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+			unit_selected_count++;
 		}
 		else if (unit_x > select_rect.x && unit_x < select_rect.w && unit_y < select_rect.y && unit_y > select_rect.h)
 		{
 			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
+			unit_selected_count++;
 		}
 		else if (unit_x < select_rect.x && unit_x > select_rect.w && unit_y > select_rect.y && unit_y < select_rect.h)
 		{
 			it._Ptr->_Myval->SetEntityStatus(E_SELECTED);
-		}
+			unit_selected_count++;
+		}		
 	}
 }
 
@@ -80,8 +88,6 @@ void j1EntityManager::DeleteEntity(Entity * ptr)
 void j1EntityManager::DeleteUnit(Entity * ptr)
 {
 }
-
-//TODO: Delete this
 
 bool j1EntityManager::IsUnitInTile(const Unit* unit, const iPoint tile)const
 {

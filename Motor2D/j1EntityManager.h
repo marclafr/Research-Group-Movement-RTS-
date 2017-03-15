@@ -8,6 +8,8 @@
 #include "Units.h"
 #include "SDL/include/SDL_rect.h"
 
+#define MAX_UNIT_SELECTED 10
+
 class j1EntityManager : public j1Module
 {
 public:

@@ -27,7 +27,7 @@ bool j1Animation::Awake(pugi::xml_node& config)
 {
 	bool ret = true;
 
-	std::string anim_folder = "animations/Units_data.xml";	//TODO: change name
+	std::string anim_folder = "animations/Units_data.xml";
 
 	//Load animations data from animations folder
 	char* buff = nullptr;

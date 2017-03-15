@@ -81,9 +81,6 @@ void Unit::Move()
 			this->action_type = IDLE;
 		}
 	}
-	//TODO: Delete axis
-	App->render->DrawLine(0, 0, 1000, 0, 255, 255, 255);
-	App->render->DrawLine(0, 0, 0, 1000, 255, 255, 255);
 
 	if (this->moving == true)
 	{

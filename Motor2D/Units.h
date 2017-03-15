@@ -72,8 +72,6 @@ private:
 public:
 
 	bool GetNextTile();
-	//should be private gotta change TODO
-
 
 	Unit(UNIT_TYPE u_type, fPoint pos, int id);
 
