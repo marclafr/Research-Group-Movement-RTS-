@@ -102,9 +102,7 @@ So, let's start, as soon as we're given the path
   
   If ActualObjectiveReached is true: (which shall be tested with the distance between our ActualObjective and our unit position)
   
-  If it's true:
-  
-  Pop the path we just walked in from the list/vector.
+  Pop the tile we just walked in from the list/vector.
   
   Change the ActualObjective to the next tile.
   
@@ -112,7 +110,7 @@ So, let's start, as soon as we're given the path
 
 ## Collision Determination
 
-As I said before, now we have to split those units. In order to do that, first we need to check if they have collided. If we notice a collision between teo units, we'll split them.
+As I said before, now we have to split those units. In order to do that, first we need to check if they have collided. If we notice a collision between two units, we'll split them.
 
 ### How do we represent the collider of a unit?
 
