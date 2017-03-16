@@ -99,7 +99,7 @@ void Unit::Move()
 		if (this->GetPath({ destination.x, destination.y }) != -1)
 		{
 			//TODO 3: when TODO 3 is done, uncomment this line:
-			//path_list.pop_front();
+			path_list.pop_front();
 			GetNextTile();
 			this->action_type = WALK;
 			this->moving = true;
@@ -122,7 +122,7 @@ void Unit::Move()
 		//Some help:
 		//1- Compare the distance between the temporary objective (path_objective) with unit_world, they don't have to be exactly the same pixel, but their distance must be very low.
 		//2- Remember path_objective it's not the final destination, but the next tile, use GetNextTile() in order to know if the path ended, if so, make the unit stop (change "moving" and "action_type")
-		/*if (path_objective.DistanceTo(unit_world) < 3)
+		if (path_objective.DistanceTo(unit_world) < 3)
 		{
 			//center the unit to the tile
 			this->SetPosition(path_objective.x, path_objective.y);
@@ -131,7 +131,7 @@ void Unit::Move()
 				moving = false;
 				this->action_type = IDLE;
 			}
-		}*/
+		}
 		//--
 	}
 }
@@ -206,13 +206,13 @@ bool Unit::GetNextTile()
 	path_list.pop_front();
 
 	//TODO 4: calculate the vector (distance) that the unit must move from its position to his objective(path_objective).
-	/*
+	
 	move_vector.x = (float)path_objective.x - GetX();
 	move_vector.y = (float)path_objective.y - GetY();
 	float module = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
 	move_vector.x = move_vector.x / module;
 	move_vector.y = move_vector.y / module;
-	*/
+	
 	//--
 	
 	iPoint direction_vec;

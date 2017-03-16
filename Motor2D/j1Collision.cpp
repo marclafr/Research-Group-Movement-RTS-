@@ -36,7 +36,7 @@ bool j1Collision::Update(float dt)
 					//TODO 6: Check if units intersect (Use DoUnitsIntersect) and if so, split them (Use SplitUnits)
 					//Remember: Units only collision when they are stopped!!
 					//You'll need to use their id, and compare which one has a bigger/smaller one, deppending on which one you want to move.
-					/*if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
+					if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
 					{
 						//Collision detected
 						Unit* unit_2 = (Unit*)unit2._Ptr->_Myval;
@@ -44,7 +44,7 @@ bool j1Collision::Update(float dt)
 						{
 							SplitUnits((Unit*)unit1._Ptr->_Myval);
 						}
-					}*/
+					}
 					//--
 				}
 			}

@@ -39,7 +39,7 @@ void j1EntityManager::SelectInQuad(const SDL_Rect& select_rect)
 
 	//TODO 1: Change unit status to selected if they are inside the select_rect
 	//TODO 2: Limit the units that can be selected to MAX_UNIT_SELECTED.
-	/*
+	
 	int unit_selected_count = 0;
 	for (std::list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
 	{
@@ -69,7 +69,7 @@ void j1EntityManager::SelectInQuad(const SDL_Rect& select_rect)
 			unit_selected_count++;
 		}		
 	}
-	*/
+	
 }
 
 void j1EntityManager::UnselectEverything()
