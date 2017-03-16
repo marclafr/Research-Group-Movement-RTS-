@@ -178,7 +178,7 @@ This is mainly the most common issues you will face if you decide to build a gro
 
 [Coordinated Unit Movement](http://www.gamasutra.com/view/feature/131720/coordinated_unit_movement.php?page=1), by Dave Pottinger (Programmer and Designer in Age of Empires series)
 
-[Implementing Coordinated Movement](http://www.gamasutra.com/view/feature/131721/implementing_coordinated_movement.php?page=3), a continuation of the previous link.
+[Implementing Coordinated Movement](http://www.gamasutra.com/view/feature/131721/implementing_coordinated_movement.php?page=1), a continuation of the previous link.
 
  - Pathfinding: 
  
