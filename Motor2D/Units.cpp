@@ -9,8 +9,36 @@
 #include "j1Map.h"
 #include "j1EntityManager.h"
 
-Unit::Unit(UNIT_TYPE u_type, fPoint pos, int id): Entity(UNIT, pos), unit_type(u_type), direction(WEST), action_type(IDLE), id(id)
+Unit::Unit(UNIT_TYPE u_type, fPoint pos, int id): Entity(UNIT, pos), unit_type(u_type), action_type(IDLE), id(id)
 {
+	int dir = rand() % 8;
+	switch (dir)
+	{
+	case 0:
+		direction = NORTH;
+		break;
+	case 1:
+		direction = NORTH_EAST;
+		break;
+	case 2:
+		direction = EAST;
+		break;
+	case 3:
+		direction = SOUTH_EAST;
+		break;
+	case 4:
+		direction = SOUTH;
+		break;
+	case 5:
+		direction = SOUTH_WEST;
+		break;
+	case 6:
+		direction = WEST;
+		break;
+	case 7:
+		direction = NORTH_WEST;
+		break;
+	}
 	switch (u_type)
 	{
 		//ADD UNIT: IF ANY UNIT IS ADDED ADD CODE HERE:
@@ -176,8 +204,6 @@ bool Unit::GetNextTile()
 	float module = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
 	move_vector.x = move_vector.x / module;
 	move_vector.y = move_vector.y / module;
-	float ang_test = (float)RAD_TO_DEG * atan2(-move_vector.y, move_vector.x);
-	LOG("ang_test: %f", ang_test);
 
 	iPoint direction_vec;
 	direction_vec.x = path_objective.x - GetX();
