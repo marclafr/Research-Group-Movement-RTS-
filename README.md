@@ -38,13 +38,11 @@ The more complex the map is, the more complicated and difficult good movement wi
 
 If it is a random map, you can't hard-code some paths, which increases the CPU use of the pathfinding.
 
-## Maximum object density
+---
 
 In games where their objects hardly ever came into contact, you can get away with a relatively simple movement system. However if you have hundreds of units like in any RTS that need to have collision, this is not going to be so easy and the quality and accuracy requirements of your movement system need to be dramatically raised.
 
----
-
-After this, let’s see what we need to implement a group movement in our game. We'll consider that we already have those units in our map, and our objective now will be to move them as a group.
+Now, let’s see what we need to implement a group movement in our game. We'll consider that we already have those units in our map, and our objective now will be to move them as a group.
 
 ## Group Selection
 
