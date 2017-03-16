@@ -40,7 +40,7 @@ bool j1Collision::Update(float dt)
 					{
 						//Collision detected
 						Unit* unit_2 = (Unit*)unit2._Ptr->_Myval;
-						if (unit_1->id > unit_2->id)
+						if (unit_1->id > unit_2->id && unit_1->moving == false)
 						{
 							SplitUnits((Unit*)unit1._Ptr->_Myval);
 						}
