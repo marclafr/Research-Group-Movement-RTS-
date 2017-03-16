@@ -52,7 +52,7 @@ We save a rectangle with the point where we click the mouse, we wait until the p
 
 Just after creating the rectangle, we'll check if any unit is in its inside, if there is any, we will select them.
 
-#### Selection Limit
+### Selection Limit
 
 A good question we should make to ourselves is, should I do a selection limit?
 
@@ -114,11 +114,11 @@ So, let's start, as soon as we're given the path
 
 As I said before, now we have to split those units. In order to do that, first we need to check if they have collided. If we notice a collision between teo units, we'll split them.
 
-#### How do we represent the collider of a unit?
+### How do we represent the collider of a unit?
 
 In most strategy games, this collider consists in a circle or sphere if the game is in 3D. Doing a sphere instead of things like oriented bounding boxes or low-level polygon to polygon intersections, is a quicker collision detection that will usually improve performance.
 
-#### Single Unit, Group of Units and Formation
+### Single Unit, Group of Units and Formation
 
 For a single unit, the circle collider is enough, however in a group of units and in a formation it is a bit more complicated.
 
@@ -126,7 +126,7 @@ For a group of units, the acceptable minimum is to check each unit in the group 
 
 In the case of a formation, it requires the same checks as a group, but we'll also need to check internal collisions within the formation.
 
-#### Unit overlapping
+### Unit overlapping
 
 As we saw in the introduction, units must overlap a bit in order to improve the gameplay. There are many ways to do this; one is that each unit has a soft radius and a hard radius.
 
@@ -136,7 +136,7 @@ When the unit is stopped or in a formation, we shall check the soft radius to ma
 
 In our project we will simply ignore all the collisions while moving, this way is a bit less realistic, but it is easy to change and, of course, less CPU consuming.
 
-#### Collision timing
+### Collision timing
 
 There can be two types of collision as well that you may consider in your game. Immediate collisions, which are currently existing collisions between two objects, and future collisions, which will happen at a specified point in the future.
 
@@ -168,6 +168,30 @@ The other one, which it's a bit easier, is to create a move line. A move line is
 
 Predicted positions are simply a set of positions that indicate where a unit will be in the future. Those positions can be calculated using the same movement algorithm that is used at moving the unit.
 
-If we do this, we shall be careful of not recalculating all our predicted positions at every frame, a rolling list works well.
+If we do this, we shall be careful of not recalculating all our predicted positions at every frame.
 
 The next optimization is to create a prediction system that handles both points and lines. If a unit is traveling in a straight line, we can designate an enclosed volume by using the current position, a future position, and the unit's soft movement 
+
+## For Further Information
+
+This is mainly the most common issues you will face if you decide to build a group movement system, however here I'll leave you some extra information:
+
+- Group Movement:
+
+[Coordinated Unit Movement](http://www.gamasutra.com/view/feature/131720/coordinated_unit_movement.php?page=1), by Dave Pottinger (Programmer and Designer in Age of Empires series)
+
+[Implementing Coordinated Movement](http://www.gamasutra.com/view/feature/131721/implementing_coordinated_movement.php?page=3), a continuation of the previous link.
+
+ - Pathfinding: 
+ 
+ I haven't talked about it really much because I have a friend who did a similar research to this one with [Pathfinding Optimization.](https://danny0ner.github.io/Pathfinding-Optimization/) And [here](https://github.com/Danny0ner/Pathfinding-Optimization) you have his repository.
+ 
+ And [here](https://www.hindawi.com/journals/ijcgt/2008/873913/) a one a bit more complicated.
+ 
+ - Collisions:
+ 
+ A really simple [collision detector](http://lazyfoo.net/tutorials/SDL/29_circular_collision_detection/index.php) to start with if you have trouble.
+
+- Formations:
+
+If you want to extend this and do formations instead of group movement, I think it can be interesting to know when to use each one, which is well explained [here.](http://blog.ocad.ca/wordpress/vism2b15-fw2011-01/2011/10/%E2%80%9Cage-of-empires-ii-age-of-kings%E2%80%9D-grouping-and-formations/?doing_wp_cron=1489083347.2696259021759033203125)
