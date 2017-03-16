@@ -46,27 +46,27 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(30, 170));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(600, 400));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(630, 430));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(630, 460));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(690, 390));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(700, 360));
+	App->entity_manager->CreateUnit(CAVALRYARCHER, fPoint(30, 170));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(300, 400));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(340, 400));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(380, 400));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(420, 400));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(280, 320));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(320, 320));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(360, 320));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(400, 320));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(400, 240));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(430, 270));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(460, 300));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(490, 330));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(520, 360));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(450, 480));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(480, 510));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(530, 430));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(560, 430));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(590, 430));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(620, 430));
+	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(175, 460));
 
 	return true;
 }

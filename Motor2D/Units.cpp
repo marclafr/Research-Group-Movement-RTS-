@@ -148,7 +148,7 @@ int Unit::GetPath(iPoint dest)
 {
 	iPoint ori = App->map->WorldToMap(GetX(), GetY());
 	iPoint destinat = App->map->WorldToMap(dest.x, dest.y);
-	return App->pathfinding->CreatePath(ori, destinat, path_list);
+	return App->pathfinding->SimpleAstar(ori, destinat, path_list);
 }
 
 void Unit::PopFirstPath()
