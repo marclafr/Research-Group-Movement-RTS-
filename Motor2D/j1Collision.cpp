@@ -33,15 +33,19 @@ bool j1Collision::Update(float dt)
 			{
 				if (unit1 != unit2)
 				{
-					if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
+					//TODO 6: Check if units intersect (Use DoUnitsIntersect) and if so, split them (Use SplitUnits)
+					//Remember: Units only collision when they are stopped!!
+					//You'll need to use their id, and compare which one has a bigger/smaller one, deppending on which one you want to move.
+					/*if (DoUnitsIntersect((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval) == true)
 					{
 						//Collision detected
 						Unit* unit_2 = (Unit*)unit2._Ptr->_Myval;
-						if (unit_1->id > unit_2->id && unit_1->moving == false)
+						if (unit_1->id > unit_2->id)
 						{
-							SplitUnits((Unit*)unit1._Ptr->_Myval, (Unit*)unit2._Ptr->_Myval);
+							SplitUnits((Unit*)unit1._Ptr->_Myval);
 						}
-					}
+					}*/
+					//--
 				}
 			}
 		}
@@ -140,43 +144,11 @@ iPoint j1Collision::FindClosestWalkable(Unit* unit)
 	return App->map->MapToWorld(tile.x, tile.y);
 }
 
-void j1Collision::SplitUnits(Unit * unit1, Unit * unit2)
+void j1Collision::SplitUnits(Unit * unit1)
 {
 	unit1->GetPath(FindClosestWalkable(unit1));
 	unit1->PopFirstPath();
 	unit1->GetNextTile();
 	unit1->SetAction(WALK);
 	unit1->moving = true;
-	
-
-	/*fPoint vector = {unit1->GetX() - unit2->GetX(), unit1->GetY() - unit2->GetY()};
-	if (vector.x < 0)
-		vector.x *= -1;
-	if (vector.y < 0)
-		vector.y *= -1;
-
-	float module = (sqrt(vector.x*vector.x + vector.y * vector.y));
-	//float angle = 0;
-
-	vector.x += unit1->unit_radius + unit2->unit_radius + 1;
-	vector.y += unit1->unit_radius + unit2->unit_radius + 1;
-	if (module == 0)
-		vector.x = unit1->unit_radius + unit2->unit_radius + 1;
-
-	fPoint pos;
-	pos.x = vector.x + unit1->GetX();
-	pos.y = vector.y + unit1->GetY();
-	iPoint tile = App->map->WorldToMap(pos.x, pos.y);
-		
-	while (App->pathfinding->IsWalkable({ tile.x, tile.y }) == false)
-	{
-		pos.x = unit1->GetX() + vector.x;
-		pos.y = unit1->GetY() + vector.y;
-		tile = App->map->WorldToMap(pos.x, pos.y);
-	}
-	
-	unit2->AddPath(tile);
-	unit2->GetNextTile();
-	unit2->moving = true;
-	unit2->SetAction(WALK);*/
 }

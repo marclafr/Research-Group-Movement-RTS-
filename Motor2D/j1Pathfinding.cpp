@@ -438,17 +438,17 @@ uint j1PathFinding::SimpleAstar(const iPoint & origin, const iPoint & destinatio
 			open.pop();
 			if (current->pos == destination)
 			{
-
+				//TODO 3: Add the path from the pathfinding into the unit list.
 				std::vector<iPoint>* path = new std::vector<iPoint>;
 				last_path.clear();
-				list.clear();
+				//list.clear();
 				for (; current->parent != nullptr; current = GetPathNode(current->parent->pos.x, current->parent->pos.y))
 				{
 					last_path.push_back(current->pos);
-					list.push_front(current->pos);
+					//list.push_front(current->pos);
 				}
 				last_path.push_back(current->pos);
-				list.push_front(current->pos);
+				//list.push_front(current->pos);
 
 				return SDL_GetTicks() - timer;
 			}

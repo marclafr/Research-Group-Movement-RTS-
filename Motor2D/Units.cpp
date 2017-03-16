@@ -98,7 +98,8 @@ void Unit::Move()
 		destination.y -= App->render->camera.y;
 		if (this->GetPath({ destination.x, destination.y }) != -1)
 		{
-			path_list.pop_front();
+			//TODO 3: when TODO 3 is done, uncomment this line:
+			//path_list.pop_front();
 			GetNextTile();
 			this->action_type = WALK;
 			this->moving = true;
@@ -117,7 +118,11 @@ void Unit::Move()
 		iPoint unit_world;
 		unit_world.x = GetX();
 		unit_world.y = GetY();
-		if (path_objective.DistanceTo(unit_world) < 3)
+		//TODO 5: Search the next tile the unit must follow. If the unit has reached its objective, stop him
+		//Some help:
+		//1- Compare the distance between the temporary objective (path_objective) with unit_world, they don't have to be exactly the same pixel, but their distance must be very low.
+		//2- Remember path_objective it's not the final destination, but the next tile, use GetNextTile() in order to know if the path ended, if so, make the unit stop (change "moving" and "action_type")
+		/*if (path_objective.DistanceTo(unit_world) < 3)
 		{
 			//center the unit to the tile
 			this->SetPosition(path_objective.x, path_objective.y);
@@ -126,8 +131,8 @@ void Unit::Move()
 				moving = false;
 				this->action_type = IDLE;
 			}
-
-		}
+		}*/
+		//--
 	}
 }
 
@@ -189,6 +194,7 @@ void Unit::AddPath(iPoint new_goal)
 	path_list.push_back(new_goal);
 }
 
+//Makes the unit objective change to the next tile of its path, returns true if found, returns false if path ended.
 bool Unit::GetNextTile()
 {
 	bool ret = true;
@@ -199,12 +205,16 @@ bool Unit::GetNextTile()
 	path_objective = App->map->MapToWorld(path_list.front().x, path_list.front().y);
 	path_list.pop_front();
 
+	//TODO 4: calculate the vector (distance) that the unit must move from its position to his objective(path_objective).
+	/*
 	move_vector.x = (float)path_objective.x - GetX();
 	move_vector.y = (float)path_objective.y - GetY();
 	float module = (sqrt(move_vector.x*move_vector.x + move_vector.y * move_vector.y));
 	move_vector.x = move_vector.x / module;
 	move_vector.y = move_vector.y / module;
-
+	*/
+	//--
+	
 	iPoint direction_vec;
 	direction_vec.x = path_objective.x - GetX();
 	direction_vec.y = GetY() - path_objective.y;
@@ -214,7 +224,7 @@ bool Unit::GetNextTile()
 		angle += 360;
 
 
-	if ((0 <= angle &&  angle <= 22.5) || (337.5 <= angle&& angle <= 360))
+	if ((0 <= angle &&  angle <= 22.5) || (337.5 <= angle && angle <= 360))
 		this->direction = EAST;
 
 	else if (22.5 <= angle &&  angle <= 67.5)
