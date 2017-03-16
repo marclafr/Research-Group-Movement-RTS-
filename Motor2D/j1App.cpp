@@ -224,13 +224,15 @@ void j1App::FinishUpdate()
 	mouse.x -= App->render->camera.x;
 	mouse.y -= App->render->camera.y;
 	static char title[256];
-	sprintf_s(title, 256, "Mouse: %d, %d    Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d,         Av.FPS: %.2f Last Frame Ms: %u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ", 
+	/*sprintf_s(title, 256, "Mouse: %d, %d    Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d,         Av.FPS: %.2f Last Frame Ms: %u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ", 
 		mouse.x, mouse.y,
 		App->map->data.width, App->map->data.height,
 		App->map->data.tile_width, App->map->data.tile_height,
 		App->map->data.tilesets.size(),
 		map_coordinates.x, map_coordinates.y,
-		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
+		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);*/
+
+	sprintf_s(title, 256, "Group Movement Research :)");
 	App->win->SetTitle(title);
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)

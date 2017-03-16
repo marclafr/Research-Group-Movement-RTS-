@@ -60,13 +60,7 @@ bool j1Scene::Start()
 	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(460, 300));
 	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(490, 330));
 	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(520, 360));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(450, 480));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(480, 510));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(530, 430));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(560, 430));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(590, 430));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(620, 430));
-	App->entity_manager->CreateUnit(TWOHANDEDSWORDMAN, fPoint(175, 460));
+
 
 	return true;
 }
