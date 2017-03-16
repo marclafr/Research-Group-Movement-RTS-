@@ -1,6 +1,8 @@
 # Introduction
 
-In this website, I'll show you how to implement coordinated unit movement in a RTS game. There isn't only one way to do it, depending on the game you want to create, there are different options you must choose, from decisions that are visually more attractive and realist to options that are not that realistic but consume less CPU.
+I am a university student from UPC studying Videogame Design and Development and here is my research in how to move units in group in a RTS game. Hope you enjoy it :)
+
+I'll show you how to implement coordinated unit movement in a RTS game. There isn't only one way to do it, depending on the game you want to create, there are different options you must choose, from decisions that are visually more attractive and realist to options that are not that realistic but consume less CPU.
 
 Before we dive into coordinated unit movement, let's take a look at some of the movement issues facing game developers today. Most of these have to do with minimizing CPU load versus maximizing the accuracy and intelligence of the movement.
 
